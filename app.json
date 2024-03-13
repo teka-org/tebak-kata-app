@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "percobaan1",
-    "slug": "percobaan1",
+    "name": "teka-app",
+    "slug": "teka-app",
+    "scheme": "com.anonymous.percobaan1",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,7 +17,16 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.percobaan1"
+      "bundleIdentifier": "com.anonymous.percobaan1",
+      "infoPList": {
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": [
+              "com.googleusercontent.apps.723819002472-var6u4f1a62b5lu9p03h2r6915o1bmv6"
+            ]
+          }
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {

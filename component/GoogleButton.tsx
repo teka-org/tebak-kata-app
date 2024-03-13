@@ -1,23 +1,18 @@
-import React from "react";
-// import { Button, View } from "react-native";
+import { Text, Image } from "@gluestack-ui/themed";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { NavigateProps } from "../types/navigationType";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
-import { NavigateProps } from "../types/navigationType";
-import {
-  Box,
-  Text,
-  Image,
-  Spinner,
-  ButtonText,
-} from "@gluestack-ui/themed";
-import { StyleSheet, View, Button, TouchableOpacity } from "react-native";
-
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const googleIcon = require("../assets/google.png");
 import { useState, useEffect } from "react";
 
 WebBrowser.maybeCompleteAuthSession();
+
+// GoogleClientID = 191953188243-u74ju3rtcnk211ubso5rvuahh7fj837l.apps.googleusercontent.com
+
+// GoogleClientSecret = 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
 
 export default function GoogleSignInButton({ navigation }: NavigateProps) {
   const [userInfo, setUserInfo] = useState(null);
@@ -68,7 +63,7 @@ export default function GoogleSignInButton({ navigation }: NavigateProps) {
   useEffect(() => {
     handleSignInWithGoogle();
   }, [response]);
-    
+
   const handleLogout = async () => {
     await AsyncStorage.removeItem("@user");
     setUserInfo(null);
@@ -119,15 +114,15 @@ export default function GoogleSignInButton({ navigation }: NavigateProps) {
         <ButtonText color="$black">Logout</ButtonText>
     </Button>  */}
       {/* <Text>{JSON.stringify(userInfo, null, 2)}</Text> */}
-      
+
       <TouchableOpacity
         style={styles.buttonGoogle}
         activeOpacity={0.5}
         onPress={() => promptAsync()}
       >
         <Image
-            source={googleIcon}
-            alt={'googleIcon'}
+          source={googleIcon}
+          alt={"googleIcon"}
           style={styles.buttonImageIconStyle}
         />
         <Text style={styles.buttonTextStyle}>Sign in with Google</Text>
@@ -136,20 +131,14 @@ export default function GoogleSignInButton({ navigation }: NavigateProps) {
   );
 }
 
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
   buttonGoogle: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#fff",
     height: 40,
     borderRadius: 100,
-    justifyContent: 'center',
+    justifyContent: "center",
     margin: 5,
   },
   buttonImageIconStyle: {
@@ -163,6 +152,6 @@ const styles = StyleSheet.create({
     color: "black",
     marginBottom: 4,
     marginLeft: 10,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
 });

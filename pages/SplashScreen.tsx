@@ -2,23 +2,16 @@ import {
   Box,
   Text,
   Image,
-  //   Button,
   Spinner,
-  ButtonText,
 } from "@gluestack-ui/themed";
-import { StyleSheet, View, Button, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState, useEffect } from "react";
 import { NavigateProps } from "../types/navigationType";
-import * as React from "react";
-const logo = require("../assets/logo.png");
-const googleIcon = require("../assets/google.png");
-import * as WebBrowser from "expo-web-browser";
-import * as Google from "expo-auth-session/providers/google";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { LinearGradientStyles } from "../styles/LinearGradientStyle";
 import GoogleSignInButton from "../component/GoogleButton";
-
-WebBrowser.maybeCompleteAuthSession();
+import * as WebBrowser from "expo-web-browser";
+const logo = require("../assets/logo.png");
 
 const SplashScreen = ({ navigation }: NavigateProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -29,14 +22,10 @@ const SplashScreen = ({ navigation }: NavigateProps) => {
     }, 1000);
   }, []);
 
-  // useEffect(() => {
-  //   handleSignInWithGoogle();
-  // }, [response]);
-
   return (
     <LinearGradient
       colors={["#48B8E9", "#48B8E9", "#BDCDD4"]}
-      style={styles.container}
+      style={LinearGradientStyles.container}
     >
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <Image
@@ -77,11 +66,6 @@ const SplashScreen = ({ navigation }: NavigateProps) => {
 export default SplashScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
   buttonGoogle: {
     flexDirection: "row",
     alignItems: "center",
