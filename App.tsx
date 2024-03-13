@@ -1,12 +1,13 @@
-import { StyleSheet, View} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { GluestackUIProvider, Box, Text  } from '@gluestack-ui/themed';
-import { config } from "@gluestack-ui/config"
-import SplashScreen from './pages/SplashScreen';
-import Register from './pages/Register';
-import Home from './pages/Home';
-
+import { StyleSheet } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { GluestackUIProvider } from "@gluestack-ui/themed";
+import { config } from "@gluestack-ui/config";
+import SplashScreen from "./pages/SplashScreen";
+import Home from "./pages/Home";
+import ChooseAvatar from "./pages/ChooseAvatar";
+import TesterPage from "./pages/TesterPage";
+import Room from "./pages/Room";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,15 +17,33 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
-            name="Splashscreen" component={SplashScreen} options={{ headerShown: false }}
+            name="Splashscreen"
+            component={SplashScreen}
+            options={{ headerShown: false }}
           />
 
           <Stack.Screen
-            name="Register" component={Register} options={{ headerShown: false }}
+            name="ChooseAvatar"
+            component={ChooseAvatar}
+            options={{ headerShown: false }}
           />
 
           <Stack.Screen
-            name="Home" component={Home} options={{ headerShown: false }}
+            name="Home"
+            component={Home}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name="Room"
+            component={Room}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name="TesterPage"
+            component={TesterPage}
+            options={{ headerShown: false }}
           />
 
           {/* <Stack.Screen
@@ -42,7 +61,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: '100%',
-    width: '100%'
+    height: "100%",
+    width: "100%",
   },
 });
