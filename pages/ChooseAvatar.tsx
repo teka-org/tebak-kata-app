@@ -1,13 +1,14 @@
+import { View } from 'react-native';
 import { Text, Button } from '@gluestack-ui/themed';
-import { StyleSheet, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { NavigateProps } from '../types/navigationType';
+import { LinearGradientStyles } from '../styles/LinearGradientStyle';
 
-const Register = ({ navigation }: NavigateProps) => {
+const ChooseAvatar = ({ navigation }: NavigateProps) => {
     return ( 
         <LinearGradient
             colors={['#48B8E9', '#48B8E9', '#BDCDD4']}
-            style={styles.container} 
+            style={LinearGradientStyles.container} 
         >
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Button
@@ -24,12 +25,4 @@ const Register = ({ navigation }: NavigateProps) => {
     );
 }
 
-export default Register;
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    }
-});
+export default ChooseAvatar;
