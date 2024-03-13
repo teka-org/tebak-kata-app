@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "totalDiamond": 100,
+        "price": 20000
+    },
+    {
+        "id": 2,
+        "totalDiamond": 250,
+        "price": 37000
+    },
+    {
+        "id": 3,
+        "totalDiamond": 500,
+        "price": 69000
+    },
+    {
+        "id": 4,
+        "totalDiamond": 1000,
+        "price": 135000
+    },
+    {
+        "id": 5,
+        "totalDiamond": 5000,
+        "price": 250000
+    },
+    {
+        "id": 6,
+        "totalDiamond": 10000,
+        "price": 516000
+    }
+]
