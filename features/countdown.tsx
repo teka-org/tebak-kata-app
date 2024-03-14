@@ -12,7 +12,7 @@ const Countdown = ({ navigation }: NavigateProps) => {
 
     if (remainingTime === 0) {
       clearInterval(countdown);
-      navigation.navigate("Home");
+      navigation.navigate("Question");
     }
 
     return () => clearInterval(countdown);

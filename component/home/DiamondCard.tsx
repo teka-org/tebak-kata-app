@@ -4,20 +4,22 @@ import { Box, Button, Image, Text } from "@gluestack-ui/themed";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { diamondInterface } from "../../interfaces/diamondInterface";
+import { Dimensions, StyleSheet } from "react-native";
+const { width } = Dimensions.get("window");
 
 const DiamondCard: React.FC<{ item: diamondInterface }> = ({ item }) => {
-  const length = item.id 
+  const length = item.id;
 
   return (
     <LinearGradient
       colors={["#48B8E9", "#48B8E9", "#e9f1f5"]}
-      style={{ width: 105, borderRadius: 10 }}
+      style={styles.container}
     >
       <Button
         bg="transparent"
         display="flex"
         flexDirection="column"
-        w={110}
+        w={"100%"}
         height={110}
       >
         <Text color="$white" fontWeight={"$bold"} size="md">
@@ -29,7 +31,7 @@ const DiamondCard: React.FC<{ item: diamondInterface }> = ({ item }) => {
           flexDirection="row"
           flexWrap="wrap"
           justifyContent="center"
-          alignItems="center"
+        //   alignItems="center"
           alignContent="center"
           gap={5}
           my={5}
@@ -40,10 +42,17 @@ const DiamondCard: React.FC<{ item: diamondInterface }> = ({ item }) => {
           ))}
         </Box>
 
-        <Text fontWeight={'$semibold'}>{item.price}</Text>
+        <Text fontWeight={"$semibold"}>{item.price}</Text>
       </Button>
     </LinearGradient>
   );
 };
 
 export default DiamondCard;
+
+const styles = StyleSheet.create({
+  container: {
+    width: width / 4,
+    borderRadius: 10,
+  },
+});

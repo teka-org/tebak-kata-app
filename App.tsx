@@ -8,52 +8,66 @@ import Home from "./pages/Home";
 import ChooseAvatar from "./pages/ChooseAvatar";
 import TesterPage from "./pages/TesterPage";
 import Room from "./pages/Room";
+import { ClerkProvider } from "@clerk/clerk-expo";
+import Question from "./pages/Question";
 
 const Stack = createNativeStackNavigator();
+const publishedKey = "pk_test_ZmxlZXQtaGVuLTY4LmNsZXJrLmFjY291bnRzLmRldiQ"
 
 export default function App() {
   return (
     <GluestackUIProvider config={config}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Splashscreen"
-            component={SplashScreen}
-            options={{ headerShown: false }}
-          />
+      {/* <ClerkProvider
+        publishableKey={publishedKey}
+        frontendApi='http://localhost:19006'
+      > */}
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Splashscreen"
+              component={SplashScreen}
+              options={{ headerShown: false }}
+            />
 
-          <Stack.Screen
-            name="ChooseAvatar"
-            component={ChooseAvatar}
-            options={{ headerShown: false }}
-          />
+            <Stack.Screen
+              name="ChooseAvatar"
+              component={ChooseAvatar}
+              options={{ headerShown: false }}
+            />
 
-          <Stack.Screen
-            name="Home"
-            component={Home}
-            options={{ headerShown: false }}
-          />
+            <Stack.Screen
+              name="Home"
+              component={Home}
+              options={{ headerShown: false }}
+            />
 
-          <Stack.Screen
-            name="Room"
-            component={Room}
-            options={{ headerShown: false }}
-          />
+            <Stack.Screen
+              name="Room"
+              component={Room}
+              options={{ headerShown: false }}
+            />
+            
+            <Stack.Screen
+              name="Question"
+              component={Question}
+              options={{ headerShown: false }}
+            />
 
-          <Stack.Screen
-            name="TesterPage"
-            component={TesterPage}
-            options={{ headerShown: false }}
-          />
+            <Stack.Screen
+              name="TesterPage"
+              component={TesterPage}
+              options={{ headerShown: false }}
+            />
 
-          {/* <Stack.Screen
+            {/* <Stack.Screen
             name="Home"
             options={{
               children: <Main><Home /></Main>
             }}
           /> */}
-        </Stack.Navigator>
-      </NavigationContainer>
+          </Stack.Navigator>
+        </NavigationContainer>
+      {/* </ClerkProvider\-k */}
     </GluestackUIProvider>
   );
 }
