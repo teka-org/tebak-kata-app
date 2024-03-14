@@ -10,7 +10,6 @@ import { useState, useEffect } from "react";
 import { NavigateProps } from "../types/navigationType";
 import { LinearGradientStyles } from "../styles/LinearGradientStyle";
 import GoogleSignInButton from "../component/GoogleButton";
-import * as WebBrowser from "expo-web-browser";
 const logo = require("../assets/logo.png");
 
 const SplashScreen = ({ navigation }: NavigateProps) => {

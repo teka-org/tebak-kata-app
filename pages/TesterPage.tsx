@@ -1,7 +1,7 @@
 import { Text } from "@gluestack-ui/themed";
 import { LinearGradient } from "expo-linear-gradient";
 import Navbar from "../component/Navbar";
-import Countdown from "../features/countdown";
+import Countdown from "../features/Countdown";
 import { LinearGradientStyles } from "../styles/LinearGradientStyle";
 import { NavigateProps } from "../types/navigationType";
 
@@ -13,7 +13,6 @@ const TesterPage = ({ navigation }: NavigateProps) => {
     >
       <Navbar navigation={navigation} />
 
-      <Countdown navigation={navigation} />
       <Text>Testt</Text>
     </LinearGradient>
   );

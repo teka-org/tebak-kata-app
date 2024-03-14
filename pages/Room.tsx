@@ -3,7 +3,7 @@ import { Text, View, Button, ButtonText } from "@gluestack-ui/themed";
 import { LinearGradient } from "expo-linear-gradient";
 import Navbar from "../component/Navbar";
 import UserCard from "../component/room/UserCard";
-import Countdown from "../features/countdown";
+import Countdown from "../features/Countdown";
 import { LinearGradientStyles } from "../styles/LinearGradientStyle";
 import { NavigateProps } from "../types/navigationType";
 // import { Dimensions } from "react-native";
@@ -21,7 +21,7 @@ const Room = ({ navigation }: NavigateProps) => {
 
   useEffect(() => {
     if (userCards.length == 5) {
-      navigation.navigate("Home");
+      navigation.navigate("Question");
     }
   }, [userCards]);
 
@@ -31,16 +31,13 @@ const Room = ({ navigation }: NavigateProps) => {
       style={LinearGradientStyles.container}
     >
       <Navbar navigation={navigation} />
-      <View
-        h={"80%"}
-        marginTop={50}
-        display="flex"
-        alignItems="center"
-      >
+      <View h={"80%"} marginTop={50} display="flex" alignItems="center">
         <Countdown navigation={navigation} />
 
         <Text fontSize={"$3xl"}>Finding Opponent</Text>
-        <Text fontSize={"$2xl"}>{userCards.length > 0 ? userCards.length : 0}/5</Text>
+        <Text fontSize={"$2xl"}>
+          {userCards.length > 0 ? userCards.length : 0}/5
+        </Text>
 
         <View gap={10} marginTop={20}>
           {userCards.map((id) => (

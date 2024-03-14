@@ -31,7 +31,7 @@ const DiamondCard: React.FC<{ item: diamondInterface }> = ({ item }) => {
           flexDirection="row"
           flexWrap="wrap"
           justifyContent="center"
-          alignItems="center"
+        //   alignItems="center"
           alignContent="center"
           gap={5}
           my={5}
