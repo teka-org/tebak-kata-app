@@ -1,0 +1,29 @@
+[
+    {
+        "id": 1,
+        "question": "Siapakah president pertama Indonesia?",
+        "option1": "B.J. Habibie",
+        "option2": "Seoharto",
+        "option3": "Ir. Soekarno",
+        "option4": "Joko Widodo",
+        "correctAnswer": "Ir. Soekarno"
+    },
+    {
+        "id": 2,
+        "question": "Ada berapakah sila Pancasila?",
+        "option1": "5",
+        "option2": "4",
+        "option3": "6",
+        "option4": "3",
+        "correctAnswer": "5"
+    },
+    {
+        "id": 3,
+        "question": "Tanggal berapa kemerdekaan Indonesia selalu dirayakan?",
+        "option1": "12 Agustus",
+        "option2": "17 Agustus",
+        "option3": "14 Agustus",
+        "option4": "15 Agustus",
+        "correctAnswer": "17 Agustus"
+    }
+]
