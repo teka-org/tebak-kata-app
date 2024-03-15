@@ -9,7 +9,6 @@ interface QuestionTimerProps {
 const QuestionTimer = ({ onTimeUp, setValidation }: QuestionTimerProps) => {
   const [remainingTime, setRemainingTime] = useState<number>(20);
   const [nextQuestion, setNextQuestion] = useState<boolean>(false)
-  const [isValidate, setIsValidate] = useState<boolean>(false)
 
   useEffect(() => {
     const countdown = setInterval(() => {
@@ -21,14 +20,7 @@ const QuestionTimer = ({ onTimeUp, setValidation }: QuestionTimerProps) => {
       setRemainingTime(5);
       setNextQuestion(true)
       setValidation(true)
-      // setIsValidate(true)
-      // onTimeUp();
-      // setRemainingTime(20);
     }
-
-    // if (remainingTime === 0 && isValidate) {
-    //   setIsValidate(false)
-    // }
     
     if (remainingTime === 0 && nextQuestion) {
       clearInterval(countdown)
