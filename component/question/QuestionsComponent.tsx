@@ -1,29 +1,35 @@
-import { Box, Image, Text, Button } from "@gluestack-ui/themed";
+import {
+  Box,
+  Image,
+  Text,
+  Button,
+  Progress,
+  ProgressFilledTrack,
+} from "@gluestack-ui/themed";
 import React, { useState, useEffect } from "react";
 import datas from "../../mocks/question.json";
 import { QuestionInterface } from "../../interfaces/questionInterface";
-import { NavigateProps } from "../../types/navigationType";
 import QuestionTimer from "../../features/QuestionTimer";
 const avatar = require("../../assets/avatar.png");
 
 interface Props {
-    navigation: any;
-    poin: number;
-    setPoin: React.Dispatch<React.SetStateAction<number>>;
-  }
+  navigation: any;
+  poin: number;
+  setPoin: React.Dispatch<React.SetStateAction<number>>;
+}
 
-const QuestionsComponent : React.FC<Props> = ({ navigation, poin, setPoin } ) => {
+const QuestionsComponent: React.FC<Props> = ({ navigation, poin, setPoin }) => {
   const [questions, setQuestions] = useState<QuestionInterface[]>([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<
-    number
-  >(0);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [answerBackground, setAnswerBackground] = useState<string>("white");
   const [validation, setValidation] = useState<boolean>(false);
   const [bgOption1, setBgOption1] = useState<string>("white");
   const [bgOption2, setBgOption2] = useState<string>("white");
   const [bgOption3, setBgOption3] = useState<string>("white");
-  const [bgOption4, setBgOption4] = useState<string>("white");
+    const [bgOption4, setBgOption4] = useState<string>("white");
+    
+    let values = (100 / questions.length)
 
   useEffect(() => {
     setQuestions(datas);
@@ -40,7 +46,7 @@ const QuestionsComponent : React.FC<Props> = ({ navigation, poin, setPoin } ) =>
         setTimeout(() => {
           navigation.navigate("TesterPage");
         }, 2000);
-        return null
+        return null;
       }
     });
   };
@@ -51,7 +57,7 @@ const QuestionsComponent : React.FC<Props> = ({ navigation, poin, setPoin } ) =>
         setAnswerBackground("#4caf50");
         setPoin(poin + 100);
       } else {
-        setAnswerBackground("#f44336");
+        setAnswerBackground("#f44336")
       }
 
       if (currentQuestion.option1 === currentQuestion.correctAnswer) {
@@ -76,6 +82,8 @@ const QuestionsComponent : React.FC<Props> = ({ navigation, poin, setPoin } ) =>
     setSelectedAnswer(answer);
   };
 
+  console.log("question :", questions);
+
   return (
     <>
       {currentQuestion ? (
@@ -84,7 +92,7 @@ const QuestionsComponent : React.FC<Props> = ({ navigation, poin, setPoin } ) =>
             <QuestionTimer onTimeUp={onTimeUp} setValidation={setValidation} />
           </Box>
 
-          <Text marginTop={30} color="$white">
+          <Text marginTop={30} fontSize={'$2xl'} textAlign="center" color="$white">
             {currentQuestion.question}
           </Text>
 
@@ -187,10 +195,14 @@ const QuestionsComponent : React.FC<Props> = ({ navigation, poin, setPoin } ) =>
             </Button>
           </Box>
 
-          <Box position="absolute" zIndex={100} bottom={-280}>
+          <Box position="absolute" display="flex" alignItems="center" gap={10} zIndex={100} top={600}>
             <Text color="$white">
-              {currentQuestion.id}/{questions.length}
+              {(currentQuestionIndex + 1)}/{questions.length}
             </Text>
+
+            <Progress value={(values * (currentQuestionIndex + 1))} w={300} size="md">
+              <ProgressFilledTrack />
+            </Progress>
           </Box>
         </Box>
       ) : (
