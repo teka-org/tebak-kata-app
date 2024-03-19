@@ -1,16 +1,14 @@
-import {
-  Box,
-  Text,
-  Image,
-  Spinner,
-} from "@gluestack-ui/themed";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { Box, Text, Image, Spinner } from "@gluestack-ui/themed";
+import { StyleSheet, View, TouchableOpacity, Button } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState, useEffect } from "react";
 import { NavigateProps } from "../types/navigationType";
 import { LinearGradientStyles } from "../styles/LinearGradientStyle";
 import GoogleSignInButton from "../component/GoogleButton";
 const logo = require("../assets/logo.png");
+import { SignedIn, SignedOut, useAuth } from "@clerk/clerk-expo";
+import GoogleButtons from "../features/GoogleButtons";
+import Home from "./Home";
 
 const SplashScreen = ({ navigation }: NavigateProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -26,38 +24,38 @@ const SplashScreen = ({ navigation }: NavigateProps) => {
       colors={["#48B8E9", "#48B8E9", "#BDCDD4"]}
       style={LinearGradientStyles.container}
     >
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Image
-          source={logo}
-          marginTop={-90}
-          alt="Teka"
-          w={250}
-          h={150}
-          objectFit="contain"
-        />
+      <SignedOut>
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          <Image
+            source={logo}
+            marginTop={-90}
+            alt="Teka"
+            w={250}
+            h={150}
+            objectFit="contain"
+          />
 
-        <Box position="absolute" bottom={80}>
-          {isLoading ? (
-            <Spinner size="small" marginBottom={100} />
-          ) : (
-            <Box>
-              <GoogleSignInButton navigation={navigation}/>
+          <Box position="absolute" bottom={80}>
+            {isLoading ? (
+              <Spinner size="small" marginBottom={100} />
+            ) : (
+              <Box>
+                <GoogleButtons navigation={navigation} />
 
-              <TouchableOpacity
-                style={styles.buttonGoogle}
-                activeOpacity={0.5}
-                onPress={() => navigation.navigate('ChooseAvatar')}
-              >
-                <Text style={styles.buttonTextStyle}>Choose avatar</Text>
-              </TouchableOpacity>
+                <Text size="xs" marginTop={100} color="$white">
+                  By continuing, you agree to the Terms and Privacy
+                </Text>
+              </Box>
+            )}
+          </Box>
+        </View>
+      </SignedOut>
 
-              <Text size="xs" marginTop={100} color="$white">
-                By continuing, you agree to the Terms and Privacy
-              </Text>
-            </Box>
-          )}
-        </Box>
-      </View>
+      <SignedIn>
+        <Home navigation={navigation} />
+      </SignedIn>
     </LinearGradient>
   );
 };
@@ -71,7 +69,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     height: 40,
     borderRadius: 100,
-    justifyContent: 'center',
+    justifyContent: "center",
     margin: 5,
   },
   buttonImageIconStyle: {
@@ -85,6 +83,6 @@ const styles = StyleSheet.create({
     color: "black",
     marginBottom: 4,
     marginLeft: 10,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
 });
