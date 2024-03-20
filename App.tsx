@@ -6,21 +6,18 @@ import { config } from "@gluestack-ui/config";
 import SplashScreen from "./pages/SplashScreen";
 import Home from "./pages/Home";
 import ChooseAvatar from "./pages/ChooseAvatar";
-import TesterPage from "./pages/TesterPage";
 import Room from "./pages/Room";
-import { ClerkProvider } from "@clerk/clerk-expo";
+import { ClerkProvider, SignedIn, SignedOut, useAuth } from "@clerk/clerk-expo";
 import Question from "./pages/Question";
+import Ranking from "./pages/Ranking";
 
 const Stack = createNativeStackNavigator();
-const publishedKey = "pk_test_ZmxlZXQtaGVuLTY4LmNsZXJrLmFjY291bnRzLmRldiQ"
+const publishedKey = "pk_test_ZmxlZXQtaGVuLTY4LmNsZXJrLmFjY291bnRzLmRldiQ";
 
 export default function App() {
   return (
     <GluestackUIProvider config={config}>
-      {/* <ClerkProvider
-        publishableKey={publishedKey}
-        frontendApi='http://localhost:19006'
-      > */}
+      <ClerkProvider publishableKey={publishedKey}>
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen
@@ -28,7 +25,6 @@ export default function App() {
               component={SplashScreen}
               options={{ headerShown: false }}
             />
-
             <Stack.Screen
               name="ChooseAvatar"
               component={ChooseAvatar}
@@ -46,7 +42,7 @@ export default function App() {
               component={Room}
               options={{ headerShown: false }}
             />
-            
+
             <Stack.Screen
               name="Question"
               component={Question}
@@ -54,11 +50,10 @@ export default function App() {
             />
 
             <Stack.Screen
-              name="TesterPage"
-              component={TesterPage}
+              name="Ranking"
+              component={Ranking}
               options={{ headerShown: false }}
             />
-
             {/* <Stack.Screen
             name="Home"
             options={{
@@ -67,7 +62,7 @@ export default function App() {
           /> */}
           </Stack.Navigator>
         </NavigationContainer>
-      {/* </ClerkProvider\-k */}
+      </ClerkProvider>
     </GluestackUIProvider>
   );
 }
