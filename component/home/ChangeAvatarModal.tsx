@@ -22,7 +22,6 @@ function ChangeAvatarModal() {
   const [showModal, setShowModal] = useState(false);
   const [data, setData] = useState<diamondInterface[]>([]);
   const ref = React.useRef(null);
-  console.log("datas :", data);
 
   useEffect(() => {
     setData(datas);

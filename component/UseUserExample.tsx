@@ -7,7 +7,7 @@ export default function UseUserExample() {
   if (!isLoaded || !isSignedIn) {
     return null;
   }
-  console.log("user :", user);
+  // console.log("user :", user);
   
  
   return <Text>Hello, {user.firstName} welcome to Clerk</Text>;

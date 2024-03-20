@@ -11,10 +11,16 @@ import { ClerkProvider, SignedIn, SignedOut, useAuth } from "@clerk/clerk-expo";
 import Question from "./pages/Question";
 import Ranking from "./pages/Ranking";
 
+// htp://192.168.18.233:e3a8-2404-8000-1095-99a-19ef-f7c0-a916-4de4.ngrok-free.app/waitingroom
+
 const Stack = createNativeStackNavigator();
 const publishedKey = "pk_test_ZmxlZXQtaGVuLTY4LmNsZXJrLmFjY291bnRzLmRldiQ";
 
 export default function App() {
+  // const [connected, setConnected] = useState(false)
+
+  
+
   return (
     <GluestackUIProvider config={config}>
       <ClerkProvider publishableKey={publishedKey}>

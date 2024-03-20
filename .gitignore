@@ -34,6 +34,9 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
+#component
+component/GoogleButton.tsx
+
 # Web_Client_ID="723819002472-vcdff7392p038jf66liup4gqu8oale74.apps.googleusercontent.com"
 
 # Web_Client_Secret="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"
