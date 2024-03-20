@@ -44,7 +44,7 @@ const QuestionsComponent: React.FC<Props> = ({ navigation, poin, setPoin }) => {
         return prevIndex! + 1;
       } else {
         setTimeout(() => {
-          navigation.navigate("TesterPage");
+          navigation.navigate("Ranking");
         }, 2000);
         return null;
       }

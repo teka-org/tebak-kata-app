@@ -4,7 +4,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useState, useEffect } from "react";
 import { NavigateProps } from "../types/navigationType";
 import { LinearGradientStyles } from "../styles/LinearGradientStyle";
-import GoogleSignInButton from "../component/GoogleButton";
 const logo = require("../assets/logo.png");
 import { SignedIn, SignedOut, useAuth } from "@clerk/clerk-expo";
 import GoogleButtons from "../features/GoogleButtons";
@@ -19,12 +18,13 @@ const SplashScreen = ({ navigation }: NavigateProps) => {
     }, 1000);
   }, []);
 
+
   return (
     <LinearGradient
       colors={["#48B8E9", "#48B8E9", "#BDCDD4"]}
       style={LinearGradientStyles.container}
     >
-      <SignedOut>
+      {/* <SignedOut> */}
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
@@ -51,11 +51,11 @@ const SplashScreen = ({ navigation }: NavigateProps) => {
             )}
           </Box>
         </View>
-      </SignedOut>
+      {/* </SignedOut> */}
 
-      <SignedIn>
+      {/* <SignedIn>
         <Home navigation={navigation} />
-      </SignedIn>
+      </SignedIn> */}
     </LinearGradient>
   );
 };
