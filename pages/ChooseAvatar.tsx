@@ -40,7 +40,7 @@ const ChooseAvatar = ({ navigation }: NavigateProps) => {
                 borderRadius={50}
                 onPress={() => navigation.navigate("Home")}
               >
-                <Image source={{ uri: item.image }} alt={item.avatar_name} />
+                <Image source={{ uri: item.image }} alt={item.id} />
                 {/* <Text>.</Text> */}
               </Button>
             );
