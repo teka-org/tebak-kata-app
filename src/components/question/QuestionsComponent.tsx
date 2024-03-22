@@ -46,7 +46,7 @@ const QuestionsComponent: React.FC<Props> = ({ navigation, poin, setPoin }) => {
         setTimeout(() => {
           navigation.navigate("Ranking");
         }, 2000);
-        return null;
+        // return null;
       }
     });
   };

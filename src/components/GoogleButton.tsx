@@ -1,12 +1,12 @@
 import { Text, Image } from "@gluestack-ui/themed";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
-import { NavigateProps } from "../types/navigationType";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const googleIcon = require("../assets/google.png");
 import { useState, useEffect } from "react";
+import { NavigateProps } from "../types/navigationType";
 
 WebBrowser.maybeCompleteAuthSession();
 

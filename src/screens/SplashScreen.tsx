@@ -24,7 +24,7 @@ const SplashScreen = ({ navigation }: NavigateProps) => {
       colors={["#48B8E9", "#48B8E9", "#BDCDD4"]}
       style={LinearGradientStyles.container}
     >
-      {/* <SignedOut> */}
+      <SignedOut>
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
@@ -51,11 +51,11 @@ const SplashScreen = ({ navigation }: NavigateProps) => {
             )}
           </Box>
         </View>
-      {/* </SignedOut> */}
+      </SignedOut>
 
-      {/* <SignedIn>
+      <SignedIn>
         <Home navigation={navigation} />
-      </SignedIn> */}
+      </SignedIn>
     </LinearGradient>
   );
 };
