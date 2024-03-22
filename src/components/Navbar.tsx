@@ -32,7 +32,7 @@ const Navbar = ({ navigation }: NavigateProps) => {
           display="flex"
           bg="transparent"
           borderRadius={100}
-          onPress={()=> navigation.navigate("Home")}
+          onPress={() => navigation.navigate("Home")}
         >
           <FontAwesomeIcon
             icon={faXmarkCircle}

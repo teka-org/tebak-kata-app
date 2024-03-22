@@ -27,7 +27,7 @@ const GoogleButtons = ({navigation}: NavigateProps) => {
         signIn
         signUp
       }
-      navigation.navigate("ChooseAvatar")
+      navigation.navigate("Loading")
     } catch (err) {
       console.error("OAuth error", err);
     }

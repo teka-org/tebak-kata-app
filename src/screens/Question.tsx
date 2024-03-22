@@ -4,11 +4,11 @@ import React, { useState } from "react";
 import { LinearGradientStyles } from "../styles/LinearGradientStyle";
 import { Dimensions } from "react-native";
 import { NavigateProps } from "../types/navigationType";
-import QuestionsComponent from "../component/question/QuestionsComponent";
+import QuestionsComponent from "../components/question/QuestionsComponent";
 const { height } = Dimensions.get("window");
 const medal = require("../assets/medal.png");
 
-const Question = ({ navigation }: NavigateProps) => {;
+const Question = ({ navigation }: NavigateProps) => {
   const [poin, setPoin] = useState<number>(0);
 
   return (
@@ -39,7 +39,11 @@ const Question = ({ navigation }: NavigateProps) => {;
           </Text>
         </Box>
 
-        <QuestionsComponent navigation={navigation} poin={poin} setPoin={setPoin} />
+        <QuestionsComponent
+          navigation={navigation}
+          poin={poin}
+          setPoin={setPoin}
+        />
       </Box>
     </LinearGradient>
   );

@@ -6,7 +6,7 @@ import {
   Text,
 } from "@gluestack-ui/themed";
 import { LinearGradient } from "expo-linear-gradient";
-import RankingButtons from "../component/ranking/RankingButtons";
+import RankingButtons from "../components/ranking/RankingButtons";
 import { NavigateProps } from "../types/navigationType";
 const Bar = require("../assets/barChart.png");
 import { Dimensions } from "react-native";

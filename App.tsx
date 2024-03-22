@@ -3,13 +3,14 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import { config } from "@gluestack-ui/config";
-import SplashScreen from "./pages/SplashScreen";
-import Home from "./pages/Home";
-import ChooseAvatar from "./pages/ChooseAvatar";
-import Room from "./pages/Room";
+import SplashScreen from "./src/screens/SplashScreen";
+import Home from "./src/screens/Home";
+import ChooseAvatar from "./src/screens/ChooseAvatar";
+import Room from "./src/screens/Room";
 import { ClerkProvider, SignedIn, SignedOut, useAuth } from "@clerk/clerk-expo";
-import Question from "./pages/Question";
-import Ranking from "./pages/Ranking";
+import Question from "./src/screens/Question";
+import Ranking from "./src/screens/Ranking";
+import Loading from "./src/screens/Loading";
 
 // htp://192.168.18.233:e3a8-2404-8000-1095-99a-19ef-f7c0-a916-4de4.ngrok-free.app/waitingroom
 
@@ -18,8 +19,6 @@ const publishedKey = "pk_test_ZmxlZXQtaGVuLTY4LmNsZXJrLmFjY291bnRzLmRldiQ";
 
 export default function App() {
   // const [connected, setConnected] = useState(false)
-
-  
 
   return (
     <GluestackUIProvider config={config}>
@@ -31,6 +30,13 @@ export default function App() {
               component={SplashScreen}
               options={{ headerShown: false }}
             />
+
+            <Stack.Screen
+              name="Loading"
+              component={Loading}
+              options={{ headerShown: false }}
+            />
+
             <Stack.Screen
               name="ChooseAvatar"
               component={ChooseAvatar}

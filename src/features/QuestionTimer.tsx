@@ -7,7 +7,7 @@ interface QuestionTimerProps {
 }
 
 const QuestionTimer = ({ onTimeUp, setValidation }: QuestionTimerProps) => {
-  const [remainingTime, setRemainingTime] = useState<number>(20);
+  const [remainingTime, setRemainingTime] = useState<number>(2);
   const [nextQuestion, setNextQuestion] = useState<boolean>(false)
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const QuestionTimer = ({ onTimeUp, setValidation }: QuestionTimerProps) => {
 
     if (remainingTime === 0) {
       clearInterval(countdown);
-      setRemainingTime(5);
+      setRemainingTime(2);
       setNextQuestion(true)
       setValidation(true)
     }
@@ -27,7 +27,7 @@ const QuestionTimer = ({ onTimeUp, setValidation }: QuestionTimerProps) => {
       setValidation(false)
       setNextQuestion(false)
       onTimeUp()
-      setRemainingTime(20)
+      setRemainingTime(2)
     }
 
     return () => clearInterval(countdown);

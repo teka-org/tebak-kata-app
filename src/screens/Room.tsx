@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Text, View, Button, ButtonText } from "@gluestack-ui/themed";
 import { LinearGradient } from "expo-linear-gradient";
-import Navbar from "../component/Navbar";
-import UserCard from "../component/room/UserCard";
+import Navbar from "../components/Navbar";
+import UserCard from "../components/room/UserCard";
 import Countdown from "../features/Countdown";
 import { LinearGradientStyles } from "../styles/LinearGradientStyle";
 import { NavigateProps } from "../types/navigationType";
@@ -13,9 +13,9 @@ import React from "react";
 
 const Room = ({ navigation }: NavigateProps) => {
   const [userCards, setUserCards] = useState<number[]>([]);
-  const [totalUser, setTotaluser] = useState<number>(0)
-  const [countdown, setCountDown] = useState(0)
-  
+  const [totalUser, setTotaluser] = useState<number>(0);
+  const [countdown, setCountDown] = useState(0);
+
   useEffect(() => {
     const socket = io(
       "https://1d62-2404-8000-1095-99a-c17a-f006-667c-48e2.ngrok-free.app"
@@ -25,30 +25,29 @@ const Room = ({ navigation }: NavigateProps) => {
     //   console.log("Connected to server");
     //   console.log("socket :", socket);
     // });
-    
-    socket.on('usersCount', (count) => {
-      setTotaluser(count)
-      // console.log(count)
-    })
 
-    socket.on('countdown', (seconds) => {
-      setCountDown(seconds)
+    socket.on("usersCount", (count) => {
+      setTotaluser(count);
+      // console.log(count)
+    });
+
+    socket.on("countdown", (seconds) => {
+      setCountDown(seconds);
       // console.log("seconds :", seconds);
       if (seconds === 0) {
         navigation.navigate("Question");
       }
-    })
+    });
 
-    socket.on('usersInWaitingRoom', (players) => {
+    socket.on("usersInWaitingRoom", (players) => {
       console.log("players :", players);
-    })
+    });
 
     return () => {
-      socket.disconnect()
-    }
+      socket.disconnect();
+    };
   }, []);
-  
-  
+
   const addUserCard = () => {
     setUserCards((prevUserCards) => [
       ...prevUserCards,
@@ -70,11 +69,15 @@ const Room = ({ navigation }: NavigateProps) => {
       <Navbar navigation={navigation} />
       <View h={"80%"} marginTop={50} display="flex" alignItems="center">
         {/* <Countdown navigation={navigation} /> */}
-        <Text fontSize={'$5xl'}>00 : { countdown < 10 ? "0" + countdown : countdown}</Text>
+        <Text fontSize={"$5xl"}>
+          00 : {countdown < 10 ? "0" + countdown : countdown}
+        </Text>
 
         <Text fontSize={"$3xl"}>Finding Opponent</Text>
         <Text fontSize={"$2xl"}>
-          <Text fontSize={"$2xl"} color={'$yellow400'}>{totalUser}</Text>
+          <Text fontSize={"$2xl"} color={"$yellow400"}>
+            {totalUser}
+          </Text>
           /5
         </Text>
 
