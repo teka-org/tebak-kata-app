@@ -1,11 +1,11 @@
-import create from 'zustand';
+import {create} from 'zustand';
 
 interface UserEmailState {
-  userEmail: string;
+  userEmail: string | null;
   setUserEmail: (email: string) => void;
 }
 
 export const useUserEmailStore = create<UserEmailState>((set) => ({
-  userEmail: '',
+  userEmail: null,
   setUserEmail: (email: string) => set({ userEmail: email }),
 }));
