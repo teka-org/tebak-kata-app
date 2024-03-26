@@ -8,9 +8,12 @@ import {
 } from "@gluestack-ui/themed";
 import React, { useState, useEffect } from "react";
 import datas from "../../mocks/question.json";
-import { QuestionInterface } from "../../interfaces/questionInterface";
+import { IQuestion } from "../../interfaces/IQuestion";
 import QuestionTimer from "../../features/QuestionTimer";
-const avatar = require("../../assets/avatar.png");
+import usePlayersStore from "../../store/usePlayersStore";
+import { io } from "socket.io-client";
+import { SOCKET_API } from "@env";
+const avatar = require("../../../assets/avatar.png");
 
 interface Props {
   navigation: any;
@@ -19,188 +22,157 @@ interface Props {
 }
 
 const QuestionsComponent: React.FC<Props> = ({ navigation, poin, setPoin }) => {
-  const [questions, setQuestions] = useState<QuestionInterface[]>([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-  const [answerBackground, setAnswerBackground] = useState<string>("white");
+  const [totalQuestion, setTotalQuestion] = useState<number | null>(null);
+  const [isCorrect, setIsCorrect] = useState<boolean>(false);
   const [validation, setValidation] = useState<boolean>(false);
-  const [bgOption1, setBgOption1] = useState<string>("white");
-  const [bgOption2, setBgOption2] = useState<string>("white");
-  const [bgOption3, setBgOption3] = useState<string>("white");
-    const [bgOption4, setBgOption4] = useState<string>("white");
-    
-    let values = (100 / questions.length)
+  const [isQuestion, setIsQuestion] = useState<boolean>(false);
+  const [dataQuestion, setDataQuestion] = useState<any>([]);
+  const [timer, setTimer] = useState<any>(null);
+  const { players } = usePlayersStore();
+  const [moveScreen, setMoveScreen] = useState<boolean>(false)
 
   useEffect(() => {
-    setQuestions(datas);
-    setCurrentQuestionIndex(0);
-  }, [datas]);
+    console.log("players di questionComponent :", players);
 
-  const currentQuestion = questions[currentQuestionIndex!];
+    const socket = io(SOCKET_API);
 
-  const onTimeUp = () => {
-    setCurrentQuestionIndex((prevIndex): number | any => {
-      if (prevIndex! < questions.length - 1) {
-        return prevIndex! + 1;
-      } else {
-        setTimeout(() => {
-          navigation.navigate("Ranking");
-        }, 2000);
-        // return null;
+    socket.emit("dataPlayers", players);
+
+    socket.on("game", (data) => {
+      // console.log("data question :", data);
+
+      setDataQuestion(data);
+    });
+
+    socket.on("countdownQuestions", (countdown) => {
+      console.log("countdown :", countdown);
+
+      setTimer(countdown);
+      if (countdown == 15) {
+        setIsQuestion(true);
+      } else if (countdown == 5) {
+        setValidation(true);
+        console.log("validation :", validation);
+      } else if (countdown == 0) {
+        setValidation(false);
+        console.log("validation :", validation);
       }
     });
-  };
+
+    socket.on("totalQuestions", (e) => {
+      console.log("total question :", e);
+      setTotalQuestion(e);
+      if (e == 9) {
+        setMoveScreen(true)
+        console.log("moveScreen :", moveScreen);
+        
+      }
+
+      if (!moveScreen && e == 0) {
+        socket.on("disconnect", () => {
+          console.log("user was disconnected!");
+        })
+    
+        socket.disconnect();
+        navigation.navigate("Ranking");
+      }
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
-    if (validation) {
-      if (selectedAnswer === currentQuestion.correctAnswer) {
-        setAnswerBackground("#4caf50");
-        setPoin(poin + 100);
-      } else {
-        setAnswerBackground("#f44336")
-      }
-
-      if (currentQuestion.option1 === currentQuestion.correctAnswer) {
-        setBgOption1("#4caf50");
-      } else if (currentQuestion.option2 === currentQuestion.correctAnswer) {
-        setBgOption2("#4caf50");
-      } else if (currentQuestion.option3 === currentQuestion.correctAnswer) {
-        setBgOption3("#4caf50");
-      } else if (currentQuestion.option4 === currentQuestion.correctAnswer) {
-        setBgOption4("#4caf50");
-      }
-    } else {
-      setAnswerBackground("#fff");
-      setBgOption1("#fff");
-      setBgOption2("#fff");
-      setBgOption3("#fff");
-      setBgOption4("#fff");
+    if (selectedAnswer == dataQuestion.answer) {
+      setIsCorrect(true);
+    } else if (selectedAnswer != dataQuestion.answer) {
+      setIsCorrect(false);
     }
-  }, [validation, selectedAnswer]);
+
+    if (validation && isCorrect && selectedAnswer) {
+      setPoin(poin + 100);
+    }
+  }, [selectedAnswer, validation, isCorrect, dataQuestion]);
 
   const handleAnswerSelect = (answer: string) => {
     setSelectedAnswer(answer);
+    console.log("answer :", answer);
   };
 
-  console.log("question :", questions);
+  // console.log("question :", questions);
 
   return (
     <>
-      {currentQuestion ? (
+      {!isQuestion && timer == 0 ? null : !isQuestion ? (
+        <Text>{timer}</Text>
+      ) : isQuestion ? (
         <Box display="flex" justifyContent="center" alignItems="center">
-          <Box marginTop={30}>
-            <QuestionTimer onTimeUp={onTimeUp} setValidation={setValidation} />
-          </Box>
+          <Text fontSize={'$2xl'} color={'$white'}>00 : {timer < 10 ? "0" + timer : timer}</Text>
 
-          <Text marginTop={30} fontSize={'$2xl'} textAlign="center" color="$white">
-            {currentQuestion.question}
+          <Text
+            marginTop={40}
+            fontSize={"$2xl"}
+            textAlign="center"
+            color="$white"
+          >
+            {dataQuestion.question}
           </Text>
 
           <Box gap={10} marginTop={50}>
-            <Button
-              style={{
-                backgroundColor:
-                  selectedAnswer === currentQuestion.option1
-                    ? answerBackground
-                    : bgOption1
-                    ? bgOption1
-                    : "white",
-                padding: 10,
-                width: 300,
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                borderRadius: 50,
-              }}
-              onPress={() => handleAnswerSelect(currentQuestion.option1)}
-              disabled={validation}
-            >
-              <Text>{currentQuestion.option1}</Text>
-              {selectedAnswer === currentQuestion.option1 ? (
-                <Image source={avatar} alt={"avatar"} w={20} h={20} />
-              ) : null}
-            </Button>
-            <Button
-              style={{
-                backgroundColor:
-                  selectedAnswer === currentQuestion.option2
-                    ? answerBackground
-                    : bgOption2
-                    ? bgOption2
-                    : "white",
-                padding: 10,
-                width: 300,
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                borderRadius: 50,
-              }}
-              onPress={() => handleAnswerSelect(currentQuestion.option2)}
-              disabled={validation}
-            >
-              <Text>{currentQuestion.option2}</Text>
-              {selectedAnswer === currentQuestion.option2 ? (
-                <Image source={avatar} alt={"avatar"} w={20} h={20} />
-              ) : null}
-            </Button>
-            <Button
-              style={{
-                backgroundColor:
-                  selectedAnswer === currentQuestion.option3
-                    ? answerBackground
-                    : bgOption3
-                    ? bgOption3
-                    : "white",
-                padding: 10,
-                width: 300,
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                borderRadius: 50,
-              }}
-              onPress={() => handleAnswerSelect(currentQuestion.option3)}
-              disabled={validation}
-            >
-              <Text>{currentQuestion.option3}</Text>
-              {selectedAnswer === currentQuestion.option3 ? (
-                <Image source={avatar} alt={"avatar"} w={20} h={20} />
-              ) : null}
-            </Button>
-            <Button
-              style={{
-                backgroundColor:
-                  selectedAnswer === currentQuestion.option4
-                    ? answerBackground
-                    : bgOption4
-                    ? bgOption4
-                    : "white",
-                padding: 10,
-                width: 300,
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                borderRadius: 50,
-              }}
-              onPress={() => handleAnswerSelect(currentQuestion.option4)}
-              disabled={validation}
-            >
-              <Text>{currentQuestion.option4}</Text>
-              {selectedAnswer === currentQuestion.option4 ? (
-                <Image source={avatar} alt={"avatar"} w={20} h={20} />
-              ) : null}
-            </Button>
+            {dataQuestion &&
+              dataQuestion.options.map((item: any, index: number) => {
+                return (
+                  <Button
+                    key={index}
+                    style={{
+                      backgroundColor:
+                        isCorrect && selectedAnswer == item && validation
+                          ? "#4caf50"
+                          : !isCorrect && selectedAnswer == item && validation
+                          ? "#f44336"
+                          : item == dataQuestion.answer && validation
+                          ? "#4caf50"
+                          : "white",
+                      // backgroundColor: "white",
+                      padding: 10,
+                      width: 300,
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      borderRadius: 50,
+                    }}
+                    onPress={() => handleAnswerSelect(item)}
+                    disabled={validation ? true : false}
+                  >
+                    <Text>{item}</Text>
+                    {selectedAnswer == item ? (
+                      <Image source={avatar} alt={"avatar"} w={20} h={20} />
+                    ) : null}
+                  </Button>
+                );
+              })}
           </Box>
 
-          <Box position="absolute" display="flex" alignItems="center" gap={10} zIndex={100} top={600}>
-            <Text color="$white">
-              {(currentQuestionIndex + 1)}/{questions.length}
-            </Text>
-
-            <Progress value={(values * (currentQuestionIndex + 1))} w={300} size="md">
+          <Box
+            position="absolute"
+            display="flex"
+            alignItems="center"
+            gap={10}
+            zIndex={100}
+            top={600}
+          >
+            {/* <Text color="$white">
+              {currentQuestionIndex + 1}/{questions.length}
+            </Text> */}
+            <Text color="$white">{(10 - totalQuestion!)}/10</Text>
+            <Progress
+              value={10 * (10 - totalQuestion!)}
+              w={300}
+              size="md"
+            >
               <ProgressFilledTrack />
             </Progress>
           </Box>

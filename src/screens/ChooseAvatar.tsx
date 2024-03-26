@@ -15,8 +15,10 @@ import { useState, useEffect } from "react";
 import { getAPI, postAPI } from "../libs/axios";
 import { useUserEmailStore } from "../store/useUserEmailStore";
 import { useUserStore } from "../store/useUserStore";
+import { useIsLoggedInStore } from "../store/useIsLoggedInStore";
 
 const ChooseAvatar = ({ navigation }: NavigateProps) => {
+  const [getAvatars, setGetAvatars] = useState([]);
   const [avatars, setAvatars] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const email = useUserEmailStore((state) => state.userEmail);
@@ -24,17 +26,36 @@ const ChooseAvatar = ({ navigation }: NavigateProps) => {
   const setCurrentAvatar = useUserStore((state) => state.setAvatar)
   const setCurrentDiamond = useUserStore((state) => state.setDiamond)
   const setCurrentId = useUserStore((state) => state.setId)
+  const setRegister = useIsLoggedInStore((state) => state.setIsRegister)
+
   const avatar1 =
     "https://i.pinimg.com/736x/22/ab/61/22ab61657f143d636535a7afa6e5c027.jpg";
   const avatar2 =
     "https://i.pinimg.com/736x/72/3e/68/723e6885cbea3d2c94cb05f4f02da7a4.jpg";
 
-  useEffect(() => {
-    console.log("avatar :", avatars);
-    console.log("username :", username);
-    console.log("email :", email);
+  // useEffect(() => {
+  //   console.log("avatar :", avatars);
+  //   console.log("username :", username);
+  //   console.log("email :", email);
     
-  }, [avatars, username, email]);
+  // }, [avatars, username, email]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getAPI.get("/api/v1/avatar");
+        const avatar = response.data;
+        const filtered = avatar.slice(0, 12);
+        setGetAvatars(filtered);
+        // console.log("response :", response.data);
+    } catch (error) {
+        console.log("Error fetching data :", error);
+      }
+    };
+
+    setRegister(true)
+    fetchData();
+  }, []);
 
   const handleSubmit = async () => {
     try {
@@ -44,12 +65,15 @@ const ChooseAvatar = ({ navigation }: NavigateProps) => {
         avatar: avatars
       })
 
-      console.log("response :", response.data[0].diamond);
+      const user = response.data.data
+
+      console.log("handleSubmit :", response.data.data);
       setCurrentUsername(username)
       setCurrentAvatar(avatars)
-      // setCurrentId()
+      setCurrentId(user.id)
+      setCurrentDiamond(user.diamond)
       setAvatars(avatars)
-      // navigation.navigate("Home")
+      navigation.navigate("Home")
     } catch (error) {
       console.log("Error");
       Alert.alert("Error while Register!")

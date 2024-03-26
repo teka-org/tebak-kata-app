@@ -3,11 +3,13 @@ import { Text, View, Button, ButtonText } from "@gluestack-ui/themed";
 import { LinearGradient } from "expo-linear-gradient";
 import Navbar from "../components/Navbar";
 import UserCard from "../components/room/UserCard";
-import Countdown from "../features/Countdown";
 import { LinearGradientStyles } from "../styles/LinearGradientStyle";
 import { NavigateProps } from "../types/navigationType";
-import { io, Socket } from "socket.io-client";
+import { io } from "socket.io-client";
 import React from "react";
+import { useUserStore } from "../store/useUserStore";
+import { SOCKET_API } from "@env";
+import usePlayersStore from "../store/usePlayersStore";
 // import { Dimensions } from "react-native";
 // const { width } = Dimensions.get("window");
 
@@ -15,16 +17,13 @@ const Room = ({ navigation }: NavigateProps) => {
   const [userCards, setUserCards] = useState<number[]>([]);
   const [totalUser, setTotaluser] = useState<number>(0);
   const [countdown, setCountDown] = useState(0);
+  const { players, setPlayers } = usePlayersStore();
+  const id = useUserStore((state) => state.id);
+  console.log("id :", id);
+  
 
   useEffect(() => {
-    const socket = io(
-      "https://1d62-2404-8000-1095-99a-c17a-f006-667c-48e2.ngrok-free.app"
-    );
-
-    // socket.on("connection", (socket) => {
-    //   console.log("Connected to server");
-    //   console.log("socket :", socket);
-    // });
+    const socket = io(SOCKET_API);
 
     socket.on("usersCount", (count) => {
       setTotaluser(count);
@@ -38,10 +37,21 @@ const Room = ({ navigation }: NavigateProps) => {
         navigation.navigate("Question");
       }
     });
+    socket.emit("dataPlayer", id);
 
-    socket.on("usersInWaitingRoom", (players) => {
-      console.log("players :", players);
+    socket.on("usersInRoom", (players) => {
+      // console.log("players :", players);
+      setPlayers(players)
     });
+
+    socket.on("moveTogameRoom", () => {
+      navigation.navigate("Question")
+    })
+
+    socket.on('timeout', (time) => {
+      console.log("timeout :", time);
+      
+    })
 
     return () => {
       socket.disconnect();
@@ -60,6 +70,8 @@ const Room = ({ navigation }: NavigateProps) => {
       navigation.navigate("Question");
     }
   }, [userCards]);
+
+  console.log("players di zustand :", players);
 
   return (
     <LinearGradient

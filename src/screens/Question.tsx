@@ -1,15 +1,51 @@
 import { Box, Image, Text } from "@gluestack-ui/themed";
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LinearGradientStyles } from "../styles/LinearGradientStyle";
 import { Dimensions } from "react-native";
 import { NavigateProps } from "../types/navigationType";
 import QuestionsComponent from "../components/question/QuestionsComponent";
+import usePlayersStore from "../store/usePlayersStore";
+import { io } from "socket.io-client";
+import { SOCKET_API } from "@env";
 const { height } = Dimensions.get("window");
-const medal = require("../assets/medal.png");
+const medal = require("../../assets/medal.png");
 
 const Question = ({ navigation }: NavigateProps) => {
   const [poin, setPoin] = useState<number>(0);
+  const [isQuestion, setIsQuestion] = useState<boolean>(false);
+  const [dataQuestion, setDataQuestion] = useState({});
+  const [timer, setTimer] = useState<any>(null);
+  const { players } = usePlayersStore();
+
+  // useEffect(() => {
+  //   const socket = io(SOCKET_API);
+
+  //   socket.emit("dataPlayers", players);
+
+  //   socket.on("game", (data) => {
+  //     console.log("data question :", data);
+
+  //     setDataQuestion(data);
+  //     // const { question, option } = data
+  //   });
+
+  //   socket.on("countdownQuestions", (countdown) => {
+  //     console.log("countdown :", countdown);
+
+  //     setTimer(countdown);
+  //     if (countdown == 15) {
+  //       setIsQuestion(true);
+  //     }
+  //   });
+
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, []);
+
+  console.log("data players: ", players);
+  
 
   return (
     <LinearGradient
