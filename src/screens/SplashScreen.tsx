@@ -1,11 +1,11 @@
 import { Box, Text, Image, Spinner } from "@gluestack-ui/themed";
-import { StyleSheet, View, TouchableOpacity, Button } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState, useEffect } from "react";
 import { NavigateProps } from "../types/navigationType";
 import { LinearGradientStyles } from "../styles/LinearGradientStyle";
-const logo = require("../assets/logo.png");
-import { SignedIn, SignedOut, useAuth } from "@clerk/clerk-expo";
+const logo = require("../../assets/logo.png");
+import { SignedIn, SignedOut } from "@clerk/clerk-expo";
 import GoogleButtons from "../features/GoogleButtons";
 import Home from "./Home";
 
