@@ -6,27 +6,37 @@ import { LinearGradientStyles } from "../styles/LinearGradientStyle";
 import NavbarHome from "../components/home/NavbarHome";
 import AvatarCard from "../components/home/AvatarCard";
 import ChangeAvatarModal from "../components/home/ChangeAvatarModal";
-const avatar = require("../assets/avatar.png");
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-import { SignedIn, SignedOut, useAuth } from "@clerk/clerk-expo";
-import SplashScreen from "./SplashScreen";
+import { useAuth } from "@clerk/clerk-expo";
 import { useUserStore } from "../store/useUserStore";
 import { getAPI } from "../libs/axios";
 import { useEffect } from "react";
+import usePlayersStore from "../store/usePlayersStore";
+import { useUserEmailStore } from "../store/useUserEmailStore";
+import { useIsLoggedInStore } from "../store/useIsLoggedInStore";
+import { SignedIn, SignedOut } from "@clerk/clerk-expo";
+import SplashScreen from "./SplashScreen";
+
+
 
 const Home = ({ navigation }: NavigateProps) => {
+  const id = useUserStore((state) => state.id)
   const username = useUserStore((state) => state.name);
+  const avatar = useUserStore((state) => state.avatar);
+  const email = useUserEmailStore((state) => state.userEmail)
+  const setIsLoggedIn = useIsLoggedInStore((state) => state.setIsLoggedIn)
+  const { players, setPlayers } = usePlayersStore();
 
-  const fetchData = async () => {
-    const response = await getAPI.get("/api/v1/users");
-
-    console.log("response :", response.data);
-  };
-
+  
   useEffect(() => {
-    fetchData();
-  }, []);
+    // if (!isLoggedIn) {
+    //   navigation.navigate("Splashscreen")
+    // }
+    setIsLoggedIn(true)
+    console.log("players di home :", players);
+    console.log("email di home:", email);
+  }, [])
 
   const SignOut = () => {
     const { isLoaded, signOut } = useAuth();
@@ -40,6 +50,8 @@ const Home = ({ navigation }: NavigateProps) => {
         bottom={50}
         gap={10}
         onPress={() => {
+          // setEmail(null)
+          setIsLoggedIn(false)
           signOut();
           navigation.navigate("Splashscreen");
         }}
@@ -58,14 +70,14 @@ const Home = ({ navigation }: NavigateProps) => {
       colors={["#48B8E9", "#48B8E9", "#BDCDD4"]}
       style={LinearGradientStyles.container}
     >
-      <SignedIn>
+      {/* <SignedIn> */}
         <>
           <NavbarHome />
 
           <View
             style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
           >
-            <AvatarCard />
+            <AvatarCard avatar={avatar} avatarSize={'2xl'} />
 
             <ChangeAvatarModal />
 
@@ -100,11 +112,11 @@ const Home = ({ navigation }: NavigateProps) => {
           </View>
           <SignOut />
         </>
-      </SignedIn>
+      {/* </SignedIn>
 
       <SignedOut>
         <SplashScreen navigation={navigation} />
-      </SignedOut>
+      </SignedOut> */}
     </LinearGradient>
   );
 };
